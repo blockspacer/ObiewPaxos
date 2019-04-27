@@ -717,7 +717,6 @@ Status MultiPaxosServiceImpl::CreatePost(Post* post) {
                          mysql_user_.c_str(), mysql_password_.c_str())) {
     mysqlpp::Query query = mysql_conn.query(stmt);
     query.parse();
-    std::cout << post->DebugString();
     mysqlpp::SimpleResult result;
     if (post->direct_repost_id() != 0) {
       result = query.execute(post->user_id(), post->content(),
@@ -811,7 +810,7 @@ Status MultiPaxosServiceImpl::CreateLike(Like* like) {
                          mysql_user_.c_str(), mysql_password_.c_str())) {
     mysqlpp::Query query = mysql_conn.query(stmt);
     query.parse();
-    std::cout << like->DebugString();
+    // std::cout << like->DebugString();
     mysqlpp::SimpleResult result;
     result = query.execute(like->user_id(), like->post_id());
     if (result.rows() > 0) {
@@ -902,7 +901,7 @@ Status MultiPaxosServiceImpl::CreateComment(Comment* comment) {
                          mysql_user_.c_str(), mysql_password_.c_str())) {
     mysqlpp::Query query = mysql_conn.query(stmt);
     query.parse();
-    std::cout << comment->DebugString();
+    // std::cout << comment->DebugString();
     mysqlpp::SimpleResult result;
     result = query.execute(comment->user_id(), comment->post_id(),
                            comment->content());
@@ -994,7 +993,6 @@ Status MultiPaxosServiceImpl::CreateFollow(SetFollowResponse* response) {
                          mysql_user_.c_str(), mysql_password_.c_str())) {
     mysqlpp::Query query = mysql_conn.query(stmt);
     query.parse();
-    std::cout << response->DebugString();
     mysqlpp::SimpleResult result;
     result = query.execute(response->follower().user_id(),
                            response->followee().user_id());
