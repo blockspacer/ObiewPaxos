@@ -591,13 +591,13 @@ Status MultiPaxosServiceImpl::GetFeedByUserId(User* user,
                                               GetFeedResponse* response) {
   std::string stmt =
       "SELECT * FROM Posts WHERE UserId IN (SELECT FolloweeId FROM Follows "
-      "WHERE UserId=%0q:userid) ORDER BY PostId DESC";
+      "WHERE UserId=%0q:userid)  OR UserId=%1q:userid1 ORDER BY PostId DESC";
   mysqlpp::Connection mysql_conn(false);
   if (mysql_conn.connect(db_name_.c_str(), mysql_server_.c_str(),
                          mysql_user_.c_str(), mysql_password_.c_str())) {
     mysqlpp::Query query = mysql_conn.query(stmt);
     query.parse();
-    mysqlpp::StoreQueryResult result_set = query.store(user->user_id());
+    mysqlpp::StoreQueryResult result_set = query.store(user->user_id(), user->user_id());
     if (result_set.size() > 0) {
       for (auto it = result_set.begin(); it != result_set.end(); ++it) {
         auto* post = response->add_post();
